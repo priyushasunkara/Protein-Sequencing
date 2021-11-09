@@ -35,7 +35,7 @@ def dnaToRna(dna, startIndex):
        lst.append(dna[i:i+3])
        if dna[i:i+3]=='TAG' or dna[i:i+3]=='TAA' or dna[i:i+3]=='TGA':
            break
-    rep=[string.rep("T","U")for string in lst]
+    rep=[string.replace("T","U")for string in lst]
     return rep
 
 '''
@@ -67,9 +67,7 @@ def generateProtein(codons, codonD):
     if codons[0]=='AUG':
         protein.append('Start')
     for i in range(1,len(codons)):
-        if i=='UAG' or i=='UAA' or i=='UGA':
-            protein.append('Stop')
-        else:
+        if codons[i] in codonD.keys():
             protein.append(codonD[codons[i]])
     return protein
 
