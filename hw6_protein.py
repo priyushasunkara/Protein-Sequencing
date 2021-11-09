@@ -276,11 +276,11 @@ createChart(xLabels, freqList1, label1, freqList2, label2, edgeList=None)
 Parameters: list of strs ; list of floats ; str ; list of floats ; str ; [optional] list of strs
 Returns: None
 '''
-def createChart(xLabels, freqList1, label1, freqList2, label2, edgeList=None):
+def createChart(xLabels, freqList1, label1, freqList2, label2, edgeList):
     import matplotlib.pyplot as plt
     w=0.4
     xvalues=np.arange(len(xLabels))
-    plt.bar(xvalues,freqList1,width=w,align='edge',label=label1,edgecolor=edgeList)
+    plt.bar(xvalues,freqList1,width=-w,align='edge',label=label1,edgecolor=edgeList)
     plt.bar(xvalues,freqList2,width=w,align='edge',label=label2,edgecolor=edgeList)
     plt.xticks(ticks=list(range(len(xLabels))),labels=xLabels,rotation="horizontal")
     plt.legend()
@@ -296,7 +296,16 @@ Parameters: list of strs ; 2D list of values
 Returns: list of strs
 '''
 def makeEdgeList(labels, biggestDiffs):
-    return
+    edgelst=[]
+    words=[]
+    for i in range(len(biggestDiffs)):
+        words.append(biggestDiffs[i][0])
+    for i in range(len(labels)):
+        if labels[i] in words:
+            edgelst.append("black")
+        else:
+            edgelst.append("white")
+    return edgelst
 
 
 '''
@@ -317,7 +326,7 @@ if __name__ == "__main__":
     # test.week1Tests()
     # print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
     # runWeek1()
-    test.testCreateChart()
+    test.testMakeEdgeList()
 
     ## Uncomment these for Week 2 ##
     # print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
