@@ -276,13 +276,13 @@ createChart(xLabels, freqList1, label1, freqList2, label2, edgeList=None)
 Parameters: list of strs ; list of floats ; str ; list of floats ; str ; [optional] list of strs
 Returns: None
 '''
-def createChart(xLabels, freqList1, label1, freqList2, label2, edgeList):
+def createChart(xLabels, freqList1, label1, freqList2, label2, edgeList=None):
     import matplotlib.pyplot as plt
     w=0.4
     xvalues=np.arange(len(xLabels))
     plt.bar(xvalues,freqList1,width=-w,align='edge',label=label1,edgecolor=edgeList)
     plt.bar(xvalues,freqList2,width=w,align='edge',label=label2,edgecolor=edgeList)
-    plt.xticks(ticks=list(range(len(xLabels))),labels=xLabels,rotation="horizontal")
+    plt.xticks(ticks=list(range(len(xLabels))),labels=xLabels,rotation="vertical")
     plt.legend()
     plt.title("Comparision of Frequencies")
     plt.show()
@@ -315,6 +315,16 @@ Parameters: no parameters
 Returns: None
 '''
 def runFullProgram():
+    humanproteins=synthesizeProteins("data/human_p53.txt","data/codon_table.json")
+    eleproteins=synthesizeProteins("data/elephant_p53.txt","data/codon_table.json")
+    cproteins=commonProteins(humanproteins,eleproteins)
+    diff=findAminoAcidDifferences(humanproteins,eleproteins,0.005)
+    displayTextResults(cproteins,diff)
+    labels=makeAminoAcidLabels(humanproteins,eleproteins)
+    f1=setupChartData(labels,humanproteins)
+    f2=setupChartData(labels,eleproteins)
+    edges=makeEdgeList(labels,diff)
+    createChart(labels, f1, "Human", f2, "Elephant", edgeList=edges)
     return
 
 
@@ -326,7 +336,7 @@ if __name__ == "__main__":
     # test.week1Tests()
     # print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
     # runWeek1()
-    test.testMakeEdgeList()
+    # test.testCreateChart()
 
     ## Uncomment these for Week 2 ##
     # print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
@@ -335,9 +345,9 @@ if __name__ == "__main__":
     # runWeek2()
 
     ## Uncomment these for Week 3 ##
-    """
+
     print("\n" + "#"*15 + " WEEK 3 TESTS " +  "#" * 16 + "\n")
     test.week3Tests()
     print("\n" + "#"*15 + " WEEK 3 OUTPUT " + "#" * 15 + "\n")
     runFullProgram()
-    """
+
